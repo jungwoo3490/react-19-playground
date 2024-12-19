@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
@@ -20,5 +20,9 @@ async function bootstrap() {
   const PORT = configService.get('SERVER_PORT');
 
   await app.listen(PORT);
+
+  if (configService.get('NODE_ENV') === 'development') {
+    Logger.log(`Application running on port ${PORT}, http://localhost:${PORT}`);
+  }
 }
 bootstrap();
